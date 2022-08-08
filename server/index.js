@@ -33,7 +33,6 @@ app.get("/api/search/:searchParam", (req, res) => {
   }
 });
 
-
 app.get("/api/lyrics/:lyricsParam", async (req, res) => {
   try {
     var search = decodeURIComponent(req.query.search);
@@ -49,7 +48,7 @@ async function configureBrowser(inputUrl) {
   var url = inputUrl;
   const browser = await puppeteer.launch();
   const page = await browser.newPage();
-  await page.goto(url, { waitUntil: "load", timeout: 60000 });
+  await page.goto(url, { waitUntil: "load", timeout: 0 });
   return page;
 }
 

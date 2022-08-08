@@ -9,9 +9,9 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Main />} />
-        <Route path="/song_page" element={<SongPage/>} />
-        <Route path="/data_page" element={<DataPage />} />
+        <Route className="main-page" path="/" element={<Main />} />
+        <Route className="song-page" path="/song_page" element={<SongPage />} />
+        <Route className="data-page" path="/data_page" element={<DataPage />} />
       </Routes>
     </BrowserRouter>
   );

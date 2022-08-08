@@ -87,11 +87,11 @@
 */
 
 .song-data-main {
-  background-color: #7d4cdb;
-  height: 100%;
+  background-color: white;
   width: 100%;
-  left: 0;
-  top: 0;
-  overflow: hidden;
-  position: fixed;
+  margin: auto;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  margin-bottom: 10%;
 }

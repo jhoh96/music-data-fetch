@@ -3,37 +3,60 @@ import Axios from "axios";
 import { Text } from "@visx/text";
 import { scaleLog } from "@visx/scale";
 import { Wordcloud } from "@visx/wordcloud";
-import { useLocation } from "react-router-dom";
-import { CheckBox } from "grommet";
+import { useLocation, useNavigate } from "react-router-dom";
+import { CheckBox, Spinner, Image, Button } from "grommet";
 
 import "./pageStyle.css";
 
+interface ExampleProps {
+  width: number;
+  height: number;
+  showControls?: boolean;
+}
+
+export interface WordData {
+  text: string;
+  value: number;
+}
+
 const colors = ["#143059", "#2F6B9A", "#82a6c2"];
 
-export default function DataPage() {
+export default function DataPage({
+  width,
+  height,
+  showControls,
+}: ExampleProps) {
+  // Initial Props/States received
+  const { state } = useLocation();
+  const navigate = useNavigate();
+  const lyricsUrl = state.lyricsUrl;
+  const songID = state.id;
+  const title = state.title;
+
+
   // word cloud stuff
   const [spiralType, setSpiralType] = useState<SpiralType>("archimedean");
   const [withRotation, setWithRotation] = useState(false);
   const [wordsList, setWordsList] = useState<string[]>([]);
   const array: string[] = [];
 
-  // other page stuff
-  const [songLyrics, setSongLyrics] = useState();
+  // States
+  // const [songLyrics, setSongLyrics] = useState();
+  const [songLyricsArray, setSongLyricsArray] = useState([]);
   const [cloudChecked, setCloudChecked] = useState(false);
-  const { state } = useLocation();
-  const lyricsUrl = state.lyricsUrl;
-  const songID = state.id;
+  const [lyricsLoaded, setLyricsLoaded] = useState(false);
 
+  const placement = ["test", "strings", "text", "hello"];
 
   // words
-  const words = wordFreq(songLyrics)
+  const words = wordFreq(placement);
 
   // @visx Checks for word frequency of given text - for Word Cloud
   function wordFreq(text) {
     // This if the input text is a STRING
-    const words: string[] = text.replace(/\./g, "").split(/\s/);
+    // const words: string[] = text.replace(/\./g, "").split(/\s/);
     // This if the input text is AN ARRAY itself
-    // const words = text;
+    const words = text;
     const freqMap: Record<string, number> = {};
 
     for (const w of words) {
@@ -74,24 +97,45 @@ export default function DataPage() {
           search: encodeURIComponent(lyricsUrl),
         },
       }).then((response: string) => {
-        //render lyrics onto page OR store :string lyrics into array or
-        // lyricsArray = response.data.split("\n").filter((x) => x.length);
         const reslyrics = response.data.split("\n").filter((x) => x.length);
-        setSongLyrics(reslyrics);
+        setSongLyricsArray(reslyrics);
+        setLyricsLoaded(true);
       });
     } catch (err) {
       console.log(err);
-      //fix error handling
     }
-  }, [lyricsUrl, songID]);
+  }, [songID, lyricsUrl]);
 
-  console.log(cloudChecked);
+  // const arrayToString = (arr) => {
+  //   //accepts lyrics array[][]
+  //   var newArray = []
+  //   for(let i=0; i<arr.length; i++) {
+  //     var verse = arr[i]
+  //     for(let j=0; j<verse.length; i++) {
+  //       let input = verse.split(" ")
+  //       newArray = [...newArray, input]
+  //     }
+  //   }
+  //   console.log(newArray)
+  //   return newArray;
+  // }
 
   return (
     <div className="song-data-main">
+      <h1>{title}</h1>
+      {lyricsLoaded ? (
+        songLyricsArray.map((verse) => {
+          return <p key={verse.id}>{verse}</p>;
+        })
+      ) : (
+        <div>
+          <Spinner message={"test"} />
+          <span>Fetching Lyrics..This could take a minute...</span>
+        </div>
+      )}
       <CheckBox
         checked={cloudChecked}
-        label="Show lyrics cloud?"
+        label="Display word cloud"
         onClick={(event) => setCloudChecked(event.target.checked)}
         color={"green"}
       />
@@ -100,8 +144,8 @@ export default function DataPage() {
           <div className="wordcloud">
             <Wordcloud
               words={words}
-              width={width}
-              height={height}
+              width={1000}
+              height={1000}
               fontSize={fontSizeSetter}
               font={"Impact"}
               padding={2}
@@ -177,8 +221,12 @@ export default function DataPage() {
           </div>
         </div>
       ) : (
-        <div id="hhmmm">HMMMMMM</div>
+        <p />
       )}
+
+      <Button primary label="Return to search!" onClick={() => {
+        navigate("/")
+      }} />
     </div>
   );
 }
