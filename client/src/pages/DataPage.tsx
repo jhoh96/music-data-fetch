@@ -33,7 +33,6 @@ export default function DataPage({
   const songID = state.id;
   const title = state.title;
 
-
   // word cloud stuff
   const [spiralType, setSpiralType] = useState<SpiralType>("archimedean");
   const [withRotation, setWithRotation] = useState(false);
@@ -43,20 +42,41 @@ export default function DataPage({
   // States
   // const [songLyrics, setSongLyrics] = useState();
   const [songLyricsArray, setSongLyricsArray] = useState([]);
+  const [wordCloudArray, setWordCloudARray] = useState([])
   const [cloudChecked, setCloudChecked] = useState(false);
   const [lyricsLoaded, setLyricsLoaded] = useState(false);
 
-  const placement = ["test", "strings", "text", "hello"];
+  const patterns = [
+    "[Chorus]",
+    "[Verse ",
+    "[Bridge]",
+    "[Pre-Chorus]",
+    "Dom Kennedy & Hit-Boy “CORSA” Official Lyrics & Meaning | Verified",
+  ];
 
   // words
-  const words = wordFreq(placement);
+  const words = wordFreq(wordCloudArray);
 
   // @visx Checks for word frequency of given text - for Word Cloud
   function wordFreq(text) {
-    // This if the input text is a STRING
-    // const words: string[] = text.replace(/\./g, "").split(/\s/);
-    // This if the input text is AN ARRAY itself
-    const words = text;
+    var newArray = []
+    var words = text;
+    for (let i = 0; i < words.length; i++) {
+      for (let j = 0; j < patterns.length; j++) {
+        if (words[i].includes(patterns[j])) {
+          words.splice(i, 1);
+        }
+      }
+    }
+
+    for(let i=0; i<words.length; i++) {
+        let temp = words[i].split(' ')
+        for(const ver of temp) {
+          newArray.push(ver.replace(/[^a-zA-Z0-9 ]/g, ''))
+        }
+    }
+
+    words = [...newArray]
     const freqMap: Record<string, number> = {};
 
     for (const w of words) {
@@ -99,26 +119,14 @@ export default function DataPage({
       }).then((response: string) => {
         const reslyrics = response.data.split("\n").filter((x) => x.length);
         setSongLyricsArray(reslyrics);
+        setWordCloudARray(reslyrics)
         setLyricsLoaded(true);
+ 
       });
     } catch (err) {
       console.log(err);
     }
   }, [songID, lyricsUrl]);
-
-  // const arrayToString = (arr) => {
-  //   //accepts lyrics array[][]
-  //   var newArray = []
-  //   for(let i=0; i<arr.length; i++) {
-  //     var verse = arr[i]
-  //     for(let j=0; j<verse.length; i++) {
-  //       let input = verse.split(" ")
-  //       newArray = [...newArray, input]
-  //     }
-  //   }
-  //   console.log(newArray)
-  //   return newArray;
-  // }
 
   return (
     <div className="song-data-main">
@@ -130,7 +138,7 @@ export default function DataPage({
       ) : (
         <div>
           <Spinner message={"test"} />
-          <span>Fetching Lyrics..This could take a minute...</span>
+          <span>Fetching Lyrics & Data..This could take a minute...</span>
         </div>
       )}
       <CheckBox
@@ -224,9 +232,13 @@ export default function DataPage({
         <p />
       )}
 
-      <Button primary label="Return to search!" onClick={() => {
-        navigate("/")
-      }} />
+      <Button
+        primary
+        label="Return to search!"
+        onClick={() => {
+          navigate("/");
+        }}
+      />
     </div>
   );
 }
