@@ -1,0 +1,97 @@
+.main-page {
+  text-align: center;
+}
+
+#text-input {
+  width: 50%;
+  align-items: center;
+  padding: 0.5%;
+  margin-top: 5%;
+  margin-bottom: 1%;
+}
+
+#album-covers {
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  margin: 1% auto;
+}
+
+#result-tags {
+  width: 35%;
+  justify-content: center;
+  align-items: center;
+  padding: 0.5rem;
+  background-color: #7d4cdb;
+  font-weight: bold;
+  margin: 1% auto;
+  color: white;
+  display: flex;
+  box-shadow: 5px 5px #888888;
+}
+
+.search-results {
+  display: inline-block;
+  justify-content: center;
+  padding: 0.5rem;
+
+  /*
+    center contents inside a div 
+     */
+  width: 100%;
+  margin: 0 auto;
+}
+
+#result-tags:hover {
+  scale: 100%;
+}
+
+#result-spinner {
+  width: 35%;
+  justify-content: center;
+  align-items: center;
+  padding: 0.5rem;
+  font-weight: bold;
+  margin: 1% auto;
+  display: flex;
+}
+
+/**
+ ********* Result Card CSS
+**/
+
+.result-card {
+  align-items: center;
+  font-weight: bold;
+}
+
+#result-image {
+  user-select: none;
+  -moz-user-select: none;
+  -webkit-user-drag: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+}
+
+#result-cardText {
+  user-select: none;
+  -moz-user-select: none;
+  -webkit-user-drag: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+}
+
+/**
+* SONG DATA PAGE ***************
+*
+*/
+
+.song-data-main {
+  background-color: #7d4cdb;
+  height: 100%;
+  width: 100%;
+  left: 0;
+  top: 0;
+  overflow: hidden;
+  position: fixed;
+}
