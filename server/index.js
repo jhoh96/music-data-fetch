@@ -53,6 +53,7 @@ async function configureBrowser(inputUrl) {
     const browser = await puppeteer.launch();
     const page = await browser.newPage();
     await page.goto(url, { waitUntil: "load", timeout: 0 });
+    browser.close();
     return page;
   } catch (err) {
     console.log(err);

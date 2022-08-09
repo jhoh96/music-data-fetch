@@ -44,14 +44,14 @@ export default function DataPage({
   const { state } = useLocation();
   const navigate = useNavigate();
   const date = new Date();
-  const lyricsUrl = state.lyricsUrl;
-  const songID = state.id;
-  const title = state.title;
-  const albumCover = state.albumCover;
-  const isHot = state.isHot;
-  const pageViews = state.pageViews;
-  const releaseDate = state.releaseDateComp;
-  const artistID = state.artistID;
+  const lyricsUrl = state.lyricsUrl || undefined;
+  const songID = state.id || undefined;
+  const title = state.title || undefined;
+  const albumCover = state.albumCover || undefined;
+  const isHot = state.isHot || undefined;
+  const pageViews = state.pageViews || undefined;
+  const releaseDate = state.releaseDateComp || {year: undefined, month: undefined, day:undefined};
+  const artistID = state.artistID || undefined;
 
   // word cloud stuff
   const [spiralType, setSpiralType] = useState<SpiralType>("archimedean");
@@ -75,7 +75,10 @@ export default function DataPage({
     "Dom Kennedy & Hit-Boy “CORSA” Official Lyrics & Meaning | Verified",
     "[Intro: ",
     "[Chorus: ",
-    "[Verse]"
+    "[Verse]",
+    "[Post ",
+    "[Post-",
+    " Solo]",
   ];
 
   //prepositions
@@ -116,17 +119,24 @@ export default function DataPage({
     for (let i = 0; i < words.length; i++) {
       let temp = words[i].split(" ");
       for (const ver of temp) {
-        newArray.push(ver.replace(/[^a-zA-Z0-9 ]/g, ""));
+        newArray.push(ver.replace(/[^a-zA-Z0-9 ]/g, "").toUpperCase());
       }
     }
 
     words = [...newArray];
     const freqMap: Record<string, number> = {};
+    if(words.length < 4) {
+      words.push('Not')
+      words.push('Enough')
+      words.push('Words')
+      words.push('Available')
+    }
 
     for (const w of words) {
       if (!freqMap[w]) freqMap[w] = 0;
       freqMap[w] += 1;
     }
+
 
     // Maps most frequently used words + value, number made up by me
     for (const word of Object.entries(freqMap)) {
@@ -135,8 +145,12 @@ export default function DataPage({
         let val = { word: word[0], frequency: word[1] };
         mostUsed.push(val);
       }
+   
     }
     // sort by frequency
+
+  
+
     mostUsed.sort((a, b) => b.frequency - a.frequency);
 
     return Object.keys(freqMap).map((word) => ({
@@ -330,19 +344,19 @@ export default function DataPage({
             ]}
             data={[
               {
-                word: mostUsed[0].word,
+                word: mostUsed[0].word.toLowerCase(),
                 frequency: mostUsed[0].frequency * 10,
               },
               {
-                word: mostUsed[1].word,
+                word: mostUsed[1].word.toLowerCase(),
                 frequency: mostUsed[1].frequency * 10,
               },
               {
-                word: mostUsed[2].word,
+                word: mostUsed[2].word.toLowerCase(),
                 frequency: mostUsed[2].frequency * 10,
               },
               {
-                word: mostUsed[3].word,
+                word: mostUsed[3].word.toLowerCase(),
                 frequency: mostUsed[3].frequency * 10,
               },
             ]}
