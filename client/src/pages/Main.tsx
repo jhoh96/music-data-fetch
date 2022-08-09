@@ -4,15 +4,20 @@ import {
   Button,
   TextInput,
   Avatar,
-  Spinner,
   Tag,
   Layer,
+  Keyboard,
+  Footer,
+  Text,
 } from "grommet";
 import "./pageStyle.css";
 import { motion } from "framer-motion";
 import SongPage from "./SongPage.tsx";
+import ScaleLoader from "react-spinners/ScaleLoader";
 
-var searchResults: any = [];
+const searchResults: any = [];
+const mainTheme = "#7D4CDB";
+const secondaryTheme = "#6FFFB0";
 
 // Framer Motion
 const FadeRightWhenVisible = ({ children }: { children: any }) => {
@@ -52,9 +57,9 @@ export default function Main() {
       return;
     }
     // sets searchResults to empty array initially
-    searchResults = [];
+    searchResults.length = 0;
     setLoad(false);
-    Axios.get("http://localhost:3001/api/search/"+inputSearch, {
+    Axios.get("http://localhost:3001/api/search/" + inputSearch, {
       method: "GET",
       params: {
         search: JSON.stringify(inputSearch),
@@ -76,7 +81,7 @@ export default function Main() {
     id: typeof data,
     albumCover: typeof data,
     lyricsUrl: typeof data,
-    releaseDate: typeof data,
+    releaseDate: typeof data
   ) => {
     setSongID(id);
     const passData = {
@@ -116,22 +121,36 @@ export default function Main() {
 
   return (
     <div className="main-page">
-      <TextInput
-        id="text-input"
-        placeholder="Search song or artist"
-        onChange={(e) => setSearchInput(e.target.value)}
-      />
-      <Button primary label="Search!" onClick={handleSearchClick} />
+      <Keyboard onEnter={handleSearchClick}>
+        <div>
+          <TextInput
+            id="text-input"
+            placeholder="Search song or artist"
+            onChange={(e) => setSearchInput(e.target.value)}
+          />
+          <Button
+            id="search-button"
+            primary
+            label="Search!"
+            onClick={handleSearchClick}
+          />
+        </div>
+      </Keyboard>
       {isLoaded ? (
         <div>
           {searchResults.map((item?: any) => (
-            <FadeRightWhenVisible key={item.id}>
-              <Avatar id="album-covers" src={item.albumCover} />
+            <motion.div
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+            >
+              {/* <Avatar id="album-covers" src={item.albumCover} /> */}
               <Tag
                 {...tagProps}
                 key={item.id}
-                name={item.artist}
                 value={item.title}
+                name={item.artist}
                 size="small"
                 onClick={() =>
                   handleTagClick(
@@ -144,18 +163,18 @@ export default function Main() {
                   )
                 }
               />
-            </FadeRightWhenVisible>
+            </motion.div>
           ))}
         </div>
       ) : (
         <div id="result-spinner">
-          <Spinner />
+          <ScaleLoader color={secondaryTheme} />
         </div>
       )}
       {tagClicked && (
         <Layer
           dark={false}
-          opacity={'true'}
+          opacity={"true"}
           color="neutral-1"
           onEsc={() => setTagClicked(false)}
           onClickOutside={() => setTagClicked(false)}
@@ -163,6 +182,9 @@ export default function Main() {
           <SongPage params={currentData} />
         </Layer>
       )}
+      {/* <Footer>
+        <Text>Background Image by : Mohammad Metri</Text>
+      </Footer> */}
     </div>
   );
 }

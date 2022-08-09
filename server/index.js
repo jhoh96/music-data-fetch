@@ -6,7 +6,7 @@ const axios = require("axios");
 const puppeteer = require("puppeteer");
 const auth_token =
   "bvYasddC9W6qkPTUxcUA-DiTB99qCnO2E-VlSWppAGhE8XZzjTUgu4HyieBtbEAP";
-
+require("events").EventEmitter.prototype._maxListeners = 0;
 app.use(cors());
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -29,27 +29,33 @@ app.get("/api/search/:searchParam", (req, res) => {
         // res.send(results)
       });
   } catch (err) {
-    console.log(err);
+    return;
   }
 });
 
-app.get("/api/lyrics/:lyricsParam", async (req, res) => {
+app.get("/api/lyrics", async (req, res) => {
   try {
-    var search = decodeURIComponent(req.query.search);
-    var page = await configureBrowser(search);
-    var pageContent = await checkDetails(page);
-    res.send(pageContent);
+    const search = decodeURIComponent(req.query.search);
+    const page = await configureBrowser(String(search));
+    const pageContent = await checkDetails(page);
+    // res.send(pageContent);
+    return res.status(200).json(pageContent);
   } catch (err) {
-    console.log(err);
+    // console.log(err);
+    return;
   }
 });
 
 async function configureBrowser(inputUrl) {
-  var url = inputUrl;
-  const browser = await puppeteer.launch();
-  const page = await browser.newPage();
-  await page.goto(url, { waitUntil: "load", timeout: 0 });
-  return page;
+  try {
+    const url = inputUrl;
+    const browser = await puppeteer.launch();
+    const page = await browser.newPage();
+    await page.goto(url, { waitUntil: "load", timeout: 0 });
+    return page;
+  } catch (err) {
+    console.log(err);
+  }
 }
 
 async function checkDetails(page) {
@@ -64,4 +70,9 @@ async function checkDetails(page) {
 
 app.listen(3001, () => {
   console.log("server is running on port 3001");
+});
+
+app.get("/", (req, res) => {
+  const sample = { value: "value" };
+  res.json(sample);
 });

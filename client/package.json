@@ -26,6 +26,7 @@
     "react-dom": "^18.2.0",
     "react-router-dom": "6",
     "react-scripts": "5.0.1",
+    "react-spinners": "^0.13.4",
     "simple-oauth2": "^4.3.0",
     "stream": "^0.0.2",
     "styled-components": "^5.3.5",

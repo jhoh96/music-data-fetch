@@ -1,13 +1,38 @@
-.main-page {
+.main-page,
+html,
+body {
   text-align: center;
+  width: 100%;
+  height: 100% !important;
+  /* background-color: #49F2BB */
+  background-image: url("../assets/main-background.png");
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
 #text-input {
   width: 50%;
+  height: 100%;
   align-items: center;
   padding: 0.5%;
   margin-top: 5%;
   margin-bottom: 1%;
+  border: 2px #7d4cdb solid;
+  background-color: #422873;
+  color: white;
+}
+
+#text-input:hover {
+  border: #6fffb0 2px solid;
+}
+
+#search-button {
+  background-color: #422873;
+  border: #7d4cdb 2px solid;
+}
+#search-button:hover {
+  background-color: #7d4cdb;
+  border: #6fffb0 2px solid;
 }
 
 #album-covers {
@@ -22,12 +47,16 @@
   justify-content: center;
   align-items: center;
   padding: 0.5rem;
-  background-color: #7d4cdb;
+  background-color: #422873;
   font-weight: bold;
   margin: 1% auto;
   color: white;
   display: flex;
-  box-shadow: 5px 5px #888888;
+  border: #7d4cdb 2px solid;
+}
+
+#result-tags:hover {
+  border: #6fffb0 2px solid;
 }
 
 .search-results {
@@ -95,3 +124,25 @@
   text-align: center;
   margin-bottom: 10%;
 }
+
+#stats-checkbox {
+  width: 100%;
+  margin: auto;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  display: flex;
+}
+
+.song-stats-component {
+  width: 100%;
+  margin: 0 auto;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  display: flex;
+}
+
+/**
+*  Word Cloud **
+**/

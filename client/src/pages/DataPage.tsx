@@ -4,7 +4,16 @@ import { Text } from "@visx/text";
 import { scaleLog } from "@visx/scale";
 import { Wordcloud } from "@visx/wordcloud";
 import { useLocation, useNavigate } from "react-router-dom";
-import { CheckBox, Spinner, Image, Button } from "grommet";
+import {
+  CheckBox,
+  Spinner,
+  DataTable,
+  Button,
+  Box,
+  Meter,
+  RangeInput,
+} from "grommet";
+import ScaleLoader from "react-spinners/ScaleLoader";
 
 import "./pageStyle.css";
 
@@ -20,6 +29,7 @@ export interface WordData {
 }
 
 const colors = ["#143059", "#2F6B9A", "#82a6c2"];
+const mainTheme = "#7D4CDB";
 
 export default function DataPage({
   width,
@@ -36,21 +46,22 @@ export default function DataPage({
   // word cloud stuff
   const [spiralType, setSpiralType] = useState<SpiralType>("archimedean");
   const [withRotation, setWithRotation] = useState(false);
-  const [wordsList, setWordsList] = useState<string[]>([]);
-  const array: string[] = [];
 
   // States
   // const [songLyrics, setSongLyrics] = useState();
   const [songLyricsArray, setSongLyricsArray] = useState([]);
-  const [wordCloudArray, setWordCloudARray] = useState([])
+  const [wordCloudArray, setWordCloudARray] = useState([]);
   const [cloudChecked, setCloudChecked] = useState(false);
   const [lyricsLoaded, setLyricsLoaded] = useState(false);
+  const mostUsed = [];
 
   const patterns = [
     "[Chorus]",
     "[Verse ",
     "[Bridge]",
     "[Pre-Chorus]",
+    "[Intro]",
+    "[Outro]",
     "Dom Kennedy & Hit-Boy “CORSA” Official Lyrics & Meaning | Verified",
   ];
 
@@ -59,7 +70,7 @@ export default function DataPage({
 
   // @visx Checks for word frequency of given text - for Word Cloud
   function wordFreq(text) {
-    var newArray = []
+    var newArray = [];
     var words = text;
     for (let i = 0; i < words.length; i++) {
       for (let j = 0; j < patterns.length; j++) {
@@ -69,20 +80,29 @@ export default function DataPage({
       }
     }
 
-    for(let i=0; i<words.length; i++) {
-        let temp = words[i].split(' ')
-        for(const ver of temp) {
-          newArray.push(ver.replace(/[^a-zA-Z0-9 ]/g, ''))
-        }
+    for (let i = 0; i < words.length; i++) {
+      let temp = words[i].split(" ");
+      for (const ver of temp) {
+        newArray.push(ver.replace(/[^a-zA-Z0-9 ]/g, ""));
+      }
     }
 
-    words = [...newArray]
+    words = [...newArray];
     const freqMap: Record<string, number> = {};
 
     for (const w of words) {
       if (!freqMap[w]) freqMap[w] = 0;
       freqMap[w] += 1;
     }
+
+    // Maps most frequently used words + value, number made up by me
+    for (const word of Object.entries(freqMap)) {
+      if (word[1] >= 5) {
+        let val = { word: word[0], frequency: word[1] };
+        mostUsed.push(val);
+      }
+    }
+    mostUsed.sort((a, b) => a - b);
 
     return Object.keys(freqMap).map((word) => ({
       text: word,
@@ -111,7 +131,7 @@ export default function DataPage({
 
   useEffect(() => {
     try {
-      Axios.get("http://localhost:3001/api/lyrics/" + songID, {
+      Axios.get("http://localhost:3001/api/lyrics", {
         method: "GET",
         params: {
           search: encodeURIComponent(lyricsUrl),
@@ -119,41 +139,45 @@ export default function DataPage({
       }).then((response: string) => {
         const reslyrics = response.data.split("\n").filter((x) => x.length);
         setSongLyricsArray(reslyrics);
-        setWordCloudARray(reslyrics)
+        setWordCloudARray(reslyrics);
         setLyricsLoaded(true);
- 
       });
     } catch (err) {
       console.log(err);
     }
-  }, [songID, lyricsUrl]);
+  }, [lyricsUrl]);
 
   return (
     <div className="song-data-main">
       <h1>{title}</h1>
       {lyricsLoaded ? (
         songLyricsArray.map((verse) => {
-          return <p key={verse.id}>{verse}</p>;
+          return (
+            <p key={Math.random() * songLyricsArray.indexOf(verse)}>{verse}</p>
+          );
         })
       ) : (
         <div>
-          <Spinner message={"test"} />
+          <ScaleLoader color={mainTheme} />
           <span>Fetching Lyrics & Data..This could take a minute...</span>
         </div>
       )}
-      <CheckBox
-        checked={cloudChecked}
-        label="Display word cloud"
-        onClick={(event) => setCloudChecked(event.target.checked)}
-        color={"green"}
-      />
+      {lyricsLoaded && (
+        <CheckBox
+          id="stats-checkbox"
+          checked={cloudChecked}
+          label="Display word cloud"
+          onClick={(event) => setCloudChecked(event.target.checked)}
+          color={"green"}
+        />
+      )}
       {cloudChecked ? (
-        <div>
+        <div className="song-stats-component">
           <div className="wordcloud">
             <Wordcloud
               words={words}
-              width={1000}
-              height={1000}
+              width={700}
+              height={700}
               fontSize={fontSizeSetter}
               font={"Impact"}
               padding={2}
@@ -176,35 +200,31 @@ export default function DataPage({
                 ))
               }
             </Wordcloud>
-            {showControls && (
-              <div>
-                <label>
-                  Spiral type &nbsp;
-                  <select
-                    onChange={(e) =>
-                      setSpiralType(e.target.value as SpiralType)
-                    }
-                    value={spiralType}
-                  >
-                    <option key={"archimedean"} value={"archimedean"}>
-                      archimedean
-                    </option>
-                    <option key={"rectangular"} value={"rectangular"}>
-                      rectangular
-                    </option>
-                  </select>
-                </label>
-                <label>
-                  With rotation &nbsp;
-                  <input
-                    type="checkbox"
-                    checked={withRotation}
-                    onChange={() => setWithRotation(!withRotation)}
-                  />
-                </label>
-                <br />
-              </div>
-            )}
+            <div>
+              <label>
+                Spiral type &nbsp;
+                <select
+                  onChange={(e) => setSpiralType(e.target.value as SpiralType)}
+                  value={spiralType}
+                >
+                  <option key={"archimedean"} value={"archimedean"}>
+                    archimedean
+                  </option>
+                  <option key={"rectangular"} value={"rectangular"}>
+                    rectangular
+                  </option>
+                </select>
+              </label>
+              <label>
+                With rotation &nbsp;
+                <input
+                  type="checkbox"
+                  checked={withRotation}
+                  onChange={() => setWithRotation(!withRotation)}
+                />
+              </label>
+              <br />
+            </div>
             <style>{`
         .wordcloud {
           display: flex;
@@ -227,11 +247,54 @@ export default function DataPage({
         }
       `}</style>
           </div>
+          {/* 
+            Data Table for Word FREQ *******************
+            */}
+          {/* <DataTable
+              columns={[
+                {
+                  property: "word",
+                  header: "Word",
+                  primary: true,
+                },
+                {
+                  property: "frequency",
+                  header: "frequency",
+                  render: (datum) => (
+                    <Box pad={{ vertical: "xsmall" }}>
+                      <Meter
+                        values={[{ value: datum.frequency }]}
+                        thickness="small"
+                        size="small"
+                      />
+                    </Box>
+                  ),
+                },
+              ]}
+              data={[
+                {
+                  word: mostUsed[0].word,
+                  frequency: 1000 / mostUsed[0].frequency,
+                },
+                {
+                  word: mostUsed[1].word,
+                  frequency: 1000 / mostUsed[1].frequency,
+                },
+                {
+                  word: mostUsed[2].word,
+                  frequency: 1000 / mostUsed[2].frequency,
+                },
+                {
+                  word: mostUsed[3].word,
+                  frequency: 1000 / mostUsed[3].frequency,
+                },
+              ]}
+            /> */}
         </div>
       ) : (
         <p />
+        
       )}
-
       <Button
         primary
         label="Return to search!"
