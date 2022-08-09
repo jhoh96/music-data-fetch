@@ -68,6 +68,25 @@ export default function DataPage({
     "Dom Kennedy & Hit-Boy “CORSA” Official Lyrics & Meaning | Verified",
   ];
 
+  //prepositions
+  const prepositions = [
+    "TO",
+    "AT",
+    "OF",
+    "FOR",
+    "ON",
+    "IN",
+    "THE",
+    "AN",
+    "AND",
+    "FROM",
+    "THEN",
+    "THIS",
+    "THAT",
+    "IM",
+    "",
+  ];
+
   // words
   const words = wordFreq(wordCloudArray);
 
@@ -100,12 +119,14 @@ export default function DataPage({
 
     // Maps most frequently used words + value, number made up by me
     for (const word of Object.entries(freqMap)) {
-      if (word[1] >= 5) {
+      if (word[0] === undefined || word === undefined) continue;
+      if (!prepositions.includes(word[0].toUpperCase())) {
         let val = { word: word[0], frequency: word[1] };
         mostUsed.push(val);
       }
     }
-    mostUsed.sort((a, b) => a - b);
+    // sort by frequency
+    mostUsed.sort((a, b) => b.frequency - a.frequency);
 
     return Object.keys(freqMap).map((word) => ({
       text: word,
@@ -170,7 +191,9 @@ export default function DataPage({
       ) : (
         <div>
           <ScaleLoader color={secondaryTheme} />
-          <span>Fetching Lyrics & Data..This could take a minute...</span>
+          <span>
+            Fetching Lyrics & Data..This could take a couple minutes...
+          </span>
         </div>
       )}
       {lyricsLoaded && (
@@ -181,6 +204,15 @@ export default function DataPage({
             onClick={(event) => setCloudChecked(event.target.checked)}
             color={"green"}
             toggle={true}
+          />
+          <Button
+            id="return-button"
+            primary
+            label="Return to search!"
+            onClick={() => {
+              navigate("/");
+              window.location.reload();
+            }}
           />
         </div>
       )}
@@ -263,59 +295,50 @@ export default function DataPage({
           {/* 
             Data Table for Word FREQ *******************
             */}
-          {/* <DataTable
-              columns={[
-                {
-                  property: "word",
-                  header: "Word",
-                  primary: true,
-                },
-                {
-                  property: "frequency",
-                  header: "frequency",
-                  render: (datum) => (
-                    <Box pad={{ vertical: "xsmall" }}>
-                      <Meter
-                        values={[{ value: datum.frequency }]}
-                        thickness="small"
-                        size="small"
-                      />
-                    </Box>
-                  ),
-                },
-              ]}
-              data={[
-                {
-                  word: mostUsed[0].word,
-                  frequency: 1000 / mostUsed[0].frequency,
-                },
-                {
-                  word: mostUsed[1].word,
-                  frequency: 1000 / mostUsed[1].frequency,
-                },
-                {
-                  word: mostUsed[2].word,
-                  frequency: 1000 / mostUsed[2].frequency,
-                },
-                {
-                  word: mostUsed[3].word,
-                  frequency: 1000 / mostUsed[3].frequency,
-                },
-              ]}
-            /> */}
+          <DataTable
+            columns={[
+              {
+                property: "word",
+                header: "Word",
+                primary: true,
+              },
+              {
+                property: "frequency",
+                header: "frequency",
+                render: (datum) => (
+                  <Box pad={{ vertical: "xsmall" }}>
+                    <Meter
+                      values={[{ value: datum.frequency }]}
+                      thickness="small"
+                      size="small"
+                    />
+                  </Box>
+                ),
+              },
+            ]}
+            data={[
+              {
+                word: mostUsed[0].word,
+                frequency: mostUsed[0].frequency*10,
+              },
+              {
+                word: mostUsed[1].word,
+                frequency: mostUsed[1].frequency*10,
+              },
+              {
+                word: mostUsed[2].word,
+                frequency: mostUsed[2].frequency*10,
+              },
+              {
+                word: mostUsed[3].word,
+                frequency: mostUsed[3].frequency*10,
+              },
+            ]}
+          />
         </div>
       ) : (
         <p />
       )}
-      <Button
-        id="return-button"
-        primary
-        label="Return to search!"
-        onClick={() => {
-          navigate("/");
-          window.location.reload();
-        }}
-      />
     </div>
   );
 }

@@ -1,15 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Axios from "axios";
-import {
-  Button,
-  TextInput,
-  Avatar,
-  Tag,
-  Layer,
-  Keyboard,
-  Footer,
-  Text,
-} from "grommet";
+import { Button, TextInput, Tag, Layer, Keyboard, Footer } from "grommet";
 import "./pageStyle.css";
 import { motion } from "framer-motion";
 import SongPage from "./SongPage.tsx";
@@ -18,7 +9,6 @@ import ScaleLoader from "react-spinners/ScaleLoader";
 const searchResults: any = [];
 const mainTheme = "#7D4CDB";
 const secondaryTheme = "#6FFFB0";
-const english = /^[A-Za-z0-9]*$/;
 
 export default function Main() {
   const [isLoaded, setLoad] = useState<boolean>(true);
@@ -38,8 +28,8 @@ export default function Main() {
       alert("Please enter a song or artist");
       return;
     }
-    if (!inputSearch.match(/^[A-Za-z0-9]*$/)) {
-      alert("Apologies! This app supports English only :(")
+    if (!inputSearch.match(/^[\s\w\d\x21-\x2f\x3a-\x40\x5b-\x60\x7b-\x7e]*$/)) {
+      alert("Apologies! This app supports English only :(");
       return;
     }
     // sets searchResults to empty array initially
@@ -123,9 +113,10 @@ export default function Main() {
         </div>
       </Keyboard>
       {isLoaded ? (
-        <div className='results-component'>
+        <div className="results-component">
           {searchResults.map((item?: any) => (
             <motion.div
+              key={item.id}
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
               initial={{ opacity: 0 }}
