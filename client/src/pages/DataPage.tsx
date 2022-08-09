@@ -13,6 +13,8 @@ import {
   Meter,
   RangeInput,
   Image,
+  NameValueList,
+  NameValuePair,
 } from "grommet";
 import ScaleLoader from "react-spinners/ScaleLoader";
 
@@ -41,10 +43,15 @@ export default function DataPage({
   // Initial Props/States received
   const { state } = useLocation();
   const navigate = useNavigate();
+  const date = new Date();
   const lyricsUrl = state.lyricsUrl;
   const songID = state.id;
   const title = state.title;
   const albumCover = state.albumCover;
+  const isHot = state.isHot;
+  const pageViews = state.pageViews;
+  const releaseDate = state.releaseDateComp;
+  const artistID = state.artistID;
 
   // word cloud stuff
   const [spiralType, setSpiralType] = useState<SpiralType>("archimedean");
@@ -66,10 +73,14 @@ export default function DataPage({
     "[Intro]",
     "[Outro]",
     "Dom Kennedy & Hit-Boy “CORSA” Official Lyrics & Meaning | Verified",
+    "[Intro: ",
+    "[Chorus: ",
+    "[Verse]"
   ];
 
   //prepositions
   const prepositions = [
+    "A",
     "TO",
     "AT",
     "OF",
@@ -208,7 +219,7 @@ export default function DataPage({
           <Button
             id="return-button"
             primary
-            label="Return to search!"
+            label="Return to Search"
             onClick={() => {
               navigate("/");
               window.location.reload();
@@ -296,6 +307,7 @@ export default function DataPage({
             Data Table for Word FREQ *******************
             */}
           <DataTable
+            className="song-data-table"
             columns={[
               {
                 property: "word",
@@ -319,22 +331,42 @@ export default function DataPage({
             data={[
               {
                 word: mostUsed[0].word,
-                frequency: mostUsed[0].frequency*10,
+                frequency: mostUsed[0].frequency * 10,
               },
               {
                 word: mostUsed[1].word,
-                frequency: mostUsed[1].frequency*10,
+                frequency: mostUsed[1].frequency * 10,
               },
               {
                 word: mostUsed[2].word,
-                frequency: mostUsed[2].frequency*10,
+                frequency: mostUsed[2].frequency * 10,
               },
               {
                 word: mostUsed[3].word,
-                frequency: mostUsed[3].frequency*10,
+                frequency: mostUsed[3].frequency * 10,
               },
             ]}
           />
+          {/*
+           * Other Data Table
+           */}
+          <Box className="song-facts-table">
+            <NameValueList layout="grid">
+              <NameValuePair id="song-facts-pair">
+                <h2>Additional Info</h2>
+                <p>
+                  This song was released in {releaseDate.year}. That was{" "}
+                  {date.getFullYear() - releaseDate.year} years ago from today.
+                </p>
+                <p>This song recorded {pageViews} page views on genius.com.</p>
+                {isHot ? (
+                  <p>This song is on genius.com's HOT songs list.</p>
+                ) : (
+                  <p>This song is not on genius.com's HOT songs list.</p>
+                )}
+              </NameValuePair>
+            </NameValueList>
+          </Box>
         </div>
       ) : (
         <p />

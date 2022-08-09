@@ -33,6 +33,7 @@ app.get("/api/search/:searchParam", (req, res) => {
   }
 });
 
+
 app.get("/api/lyrics", async (req, res) => {
   try {
     const search = decodeURIComponent(req.query.search);

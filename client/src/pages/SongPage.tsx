@@ -7,25 +7,34 @@ import "./pageStyle.css";
 export default function SongPage(params) {
   const title = params.params.title + " by " + params.params.artist;
   const releaseDate = "Released on " + params.params.releaseDate;
-  const id = params.params.id
+  const id = params.params.id;
   const albumCover = params.params.albumCover;
   const lyricsUrl = params.params.lyricsUrl;
+  const isHot = params.params.isHot;
+  const pageViews = params.params.pageViews;
+  const releaseDateComp = params.params.releaseDateComp;
+  const artistID = params.params.artistID
   const navigate = useNavigate();
 
-  const handleButtonClick = () => {
+  const handleButtonClick = (e) => {
+    e.preventDefault()
     navigate("data_page", {
       state: {
         title: title,
         releaseDate: releaseDate,
         albumCover: albumCover,
         lyricsUrl: lyricsUrl,
-        id: id
+        id: id,
+        isHot: isHot,
+        pageViews: pageViews,
+        releaseDateComp: releaseDateComp,
+        artistID: artistID
       },
     });
   };
 
   return (
-    <div className='song-page-div'>
+    <div className="song-page-div">
       <Card
         className="result-card"
         height="medium"
@@ -43,7 +52,12 @@ export default function SongPage(params) {
           <Image id="result-image" fit="cover" src={albumCover} />
         </Box>
         &nbsp;
-        <Button id='result-button' primary label="Get Data" onClick={handleButtonClick} />
+        <Button
+          id="result-button"
+          primary
+          label="Get Data"
+          onClick={e=>handleButtonClick(e)}
+        />
         <script
           type="text/javascript"
           src="http://tracking.musixmatch.com/t1.0/AMa6hJCIEzn1v8RuOP"

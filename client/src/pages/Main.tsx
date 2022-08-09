@@ -57,7 +57,11 @@ export default function Main() {
     id: typeof data,
     albumCover: typeof data,
     lyricsUrl: typeof data,
-    releaseDate: typeof data
+    releaseDate: typeof data,
+    isHot: typeof data,
+    pageViews: typeof data,
+    releaseDateComp: typeof data,
+    artistID: typeof data,
   ) => {
     setSongID(id);
     const passData = {
@@ -67,6 +71,10 @@ export default function Main() {
       albumCover: albumCover,
       lyricsUrl: lyricsUrl,
       releaseDate: releaseDate,
+      isHot: isHot,
+      pageViews: pageViews,
+      releaseDateComp: releaseDateComp,
+      artistID: artistID
     };
     setCurrentData(passData);
     setTagClicked(true);
@@ -89,6 +97,10 @@ export default function Main() {
         albumCover: res.result.header_image_url,
         lyricsUrl: res.result.url,
         releaseDate: res.result.release_date_for_display,
+        isHot: res.result.stats.hot,
+        pageViews: res.result.stats.pageviews,
+        releaseDateComp: res.result.release_date_components,
+        artistID: res.result.primary_artist.id
       };
       searchResults.push(val);
     }
@@ -136,7 +148,11 @@ export default function Main() {
                     item.id,
                     item.albumCover,
                     item.lyricsUrl,
-                    item.releaseDate
+                    item.releaseDate,
+                    item.isHot,
+                    item.pageViews,
+                    item.releaseDateComp,
+                    item.artistID
                   )
                 }
               />
