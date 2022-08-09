@@ -12,6 +12,7 @@ import {
   Box,
   Meter,
   RangeInput,
+  Image,
 } from "grommet";
 import ScaleLoader from "react-spinners/ScaleLoader";
 
@@ -28,8 +29,9 @@ export interface WordData {
   value: number;
 }
 
-const colors = ["#143059", "#2F6B9A", "#82a6c2"];
+const colors = ["#55A1F2", "#29A67D", "#49F2BB"];
 const mainTheme = "#7D4CDB";
+const secondaryTheme = "#6FFFB0";
 
 export default function DataPage({
   width,
@@ -42,6 +44,7 @@ export default function DataPage({
   const lyricsUrl = state.lyricsUrl;
   const songID = state.id;
   const title = state.title;
+  const albumCover = state.albumCover;
 
   // word cloud stuff
   const [spiralType, setSpiralType] = useState<SpiralType>("archimedean");
@@ -149,27 +152,37 @@ export default function DataPage({
 
   return (
     <div className="song-data-main">
-      <h1>{title}</h1>
+      <Box id="header-box">
+        <Image id="song-image" fit="cover" src={albumCover} />
+        <h1 id="song-title">{title}</h1>
+      </Box>
       {lyricsLoaded ? (
         songLyricsArray.map((verse) => {
           return (
-            <p key={Math.random() * songLyricsArray.indexOf(verse)}>{verse}</p>
+            <p
+              id="song-lyrics"
+              key={Math.random() * songLyricsArray.indexOf(verse)}
+            >
+              {verse}
+            </p>
           );
         })
       ) : (
         <div>
-          <ScaleLoader color={mainTheme} />
+          <ScaleLoader color={secondaryTheme} />
           <span>Fetching Lyrics & Data..This could take a minute...</span>
         </div>
       )}
       {lyricsLoaded && (
-        <CheckBox
-          id="stats-checkbox"
-          checked={cloudChecked}
-          label="Display word cloud"
-          onClick={(event) => setCloudChecked(event.target.checked)}
-          color={"green"}
-        />
+        <div id="stats-checkbox">
+          <CheckBox
+            checked={cloudChecked}
+            label="Display Additional Info"
+            onClick={(event) => setCloudChecked(event.target.checked)}
+            color={"green"}
+            toggle={true}
+          />
+        </div>
       )}
       {cloudChecked ? (
         <div className="song-stats-component">
@@ -293,13 +306,14 @@ export default function DataPage({
         </div>
       ) : (
         <p />
-        
       )}
       <Button
+        id="return-button"
         primary
         label="Return to search!"
         onClick={() => {
           navigate("/");
+          window.location.reload();
         }}
       />
     </div>

@@ -1,0 +1,8 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@900&display=swap'); 
+- Black 900 Roboto 
+
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@500;900&display=swap');
+- Black 500 Roboto
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@600&family=Roboto:wght@500;900&display=swap');
+- SemiBold 600 Poppins

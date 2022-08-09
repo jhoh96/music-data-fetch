@@ -18,25 +18,7 @@ import ScaleLoader from "react-spinners/ScaleLoader";
 const searchResults: any = [];
 const mainTheme = "#7D4CDB";
 const secondaryTheme = "#6FFFB0";
-
-// Framer Motion
-const FadeRightWhenVisible = ({ children }: { children: any }) => {
-  return (
-    <motion.div
-      initial="hidden"
-      whileInView="visible"
-      viewport={{ once: true }}
-      transition={{ duration: 0.5 }}
-      variants={{
-        visible: { x: 0 },
-        hidden: { x: 300 },
-      }}
-      whileHover={{ scale: 1.1 }}
-    >
-      {children}
-    </motion.div>
-  );
-};
+const english = /^[A-Za-z0-9]*$/;
 
 export default function Main() {
   const [isLoaded, setLoad] = useState<boolean>(true);
@@ -54,6 +36,10 @@ export default function Main() {
   const handleSearchClick = () => {
     if (inputSearch.match(/^ *$/) !== null) {
       alert("Please enter a song or artist");
+      return;
+    }
+    if (!inputSearch.match(/^[A-Za-z0-9]*$/)) {
+      alert("Apologies! This app supports English only :(")
       return;
     }
     // sets searchResults to empty array initially
@@ -137,7 +123,7 @@ export default function Main() {
         </div>
       </Keyboard>
       {isLoaded ? (
-        <div>
+        <div className='results-component'>
           {searchResults.map((item?: any) => (
             <motion.div
               whileHover={{ scale: 1.1 }}

@@ -25,10 +25,9 @@ export default function SongPage(params) {
   };
 
   return (
-    <div>
+    <div className='song-page-div'>
       <Card
         className="result-card"
-        background="brand"
         height="medium"
         width="medium"
         opacity="true"
@@ -44,7 +43,7 @@ export default function SongPage(params) {
           <Image id="result-image" fit="cover" src={albumCover} />
         </Box>
         &nbsp;
-        <Button primary label="Get Data" onClick={handleButtonClick} />
+        <Button id='result-button' primary label="Get Data" onClick={handleButtonClick} />
         <script
           type="text/javascript"
           src="http://tracking.musixmatch.com/t1.0/AMa6hJCIEzn1v8RuOP"

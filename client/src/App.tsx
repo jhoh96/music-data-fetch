@@ -3,15 +3,12 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Main from "./pages/Main";
 import SongPage from "./pages/SongPage.tsx";
 import DataPage from "./pages/DataPage.tsx";
-import BackgroundImage from "./assets/main-background.png";
+import BackgroundImage from "./assets/brick-wall.png";
 import "./App.css";
 
 function App() {
   return (
-    <div
-      // style={{ backgroundImage: `url(${BackgroundImage})` }}
-      className="main-div"
-    >
+    <div className="main-div">
       <BrowserRouter>
         <Routes>
           <Route className="main-page" path="/" element={<Main />} />
