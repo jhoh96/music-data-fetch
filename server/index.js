@@ -12,6 +12,8 @@ app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
+const PORT = process.env.PORT || 3001
+
 // GET request to api.genius.com
 app.get("/api/search/:searchParam", (req, res) => {
   try {
@@ -70,8 +72,8 @@ async function checkDetails(page) {
   return pageContent;
 }
 
-app.listen(3001, () => {
-  console.log("server is running on port 3001");
+app.listen(PORT, () => {
+  console.log("server is running on port " + PORT);
 });
 
 app.get("/", (req, res) => {
