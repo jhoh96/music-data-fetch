@@ -51,6 +51,38 @@ body {
   margin: 1% auto;
 }
 
+#tool-tip {
+  width: 8%;
+  position: fixed;
+  left: 0px;
+  top: 5px;
+  color: white
+}
+
+#tip-writing {
+  color: white;
+  text-align: left;
+}
+
+#drop-down-tip {
+  content: white !important;
+  background-color: white !important;
+  background: white !important;
+}
+
+#tip-button {
+  color: white;
+  user-select: none;
+  -moz-user-select: none;
+  -webkit-user-drag: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+}
+
+#tip-button:hover {
+  border: #6fffb0 2px solid;
+}
+
 #result-tags {
   width: 35%;
   justify-content: center;
@@ -173,6 +205,8 @@ body {
 .wordcloud {
   padding-right: 5%;
 }
+
+
 
 #header-box {
   padding-top: 5%;

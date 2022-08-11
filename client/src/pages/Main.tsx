@@ -1,6 +1,14 @@
 import React, { useState, useEffect } from "react";
 import Axios from "axios";
-import { Button, TextInput, Tag, Layer, Keyboard } from "grommet";
+import {
+  Button,
+  TextInput,
+  Tag,
+  Layer,
+  Keyboard,
+  Tip,
+  Box,
+} from "grommet";
 import "./pageStyle.css";
 import { motion } from "framer-motion";
 import SongPage from "./SongPage.tsx";
@@ -64,7 +72,7 @@ export default function Main() {
     isHot: typeof data,
     pageViews: typeof data,
     releaseDateComp: typeof data,
-    artistID: typeof data,
+    artistID: typeof data
   ) => {
     setSongID(id);
     const passData = {
@@ -77,7 +85,7 @@ export default function Main() {
       isHot: isHot,
       pageViews: pageViews,
       releaseDateComp: releaseDateComp,
-      artistID: artistID
+      artistID: artistID,
     };
     setCurrentData(passData);
     setTagClicked(true);
@@ -103,7 +111,7 @@ export default function Main() {
         isHot: res.result.stats.hot,
         pageViews: res.result.stats.pageviews,
         releaseDateComp: res.result.release_date_components,
-        artistID: res.result.primary_artist.id
+        artistID: res.result.primary_artist.id,
       };
       searchResults.push(val);
     }
@@ -124,6 +132,34 @@ export default function Main() {
             primary
             label="Search!"
             onClick={handleSearchClick}
+          />
+          <Box id="tool-tip" color="white" pad="medium">
+            <Tip
+              id="drop-down-tip"
+              content={
+                <p id="tip-writing">
+                  Song lyrics are obtained via HTML Scraping - <br />
+                  which can contain lots of data. <br />
+                  <p />
+                  If the page takes longer than 30 seconds to load, <br />
+                  please refresh the page 'once' or restart the search.
+                  <p />
+                  Search servers are being hosted on a free server which <br />
+                  has a time limit.
+                </p>
+              }
+            >
+              <Button id="tip-button" label="Please Read" />
+            </Tip>
+          </Box>
+          <Button
+            id="return-button"
+            primary
+            label="Return to Search"
+            onClick={() => {
+              navigate("/");
+              window.location.reload();
+            }}
           />
         </div>
       </Keyboard>

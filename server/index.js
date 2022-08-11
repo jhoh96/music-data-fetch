@@ -82,7 +82,7 @@ app.get("/api/lyrics", async (req, res) => {
   try {
     const page = await browser.newPage();
     const url = decodeURIComponent(req.query.search);
-    await page.goto(url, { waitUntil: "load", timeout: 30000 }); // 30 seconds heroku max
+    await page.goto(url, { waitUntil: "domcontentloaded", timeout: 30000 }); // 30 seconds heroku max
     // const pageContent = await page.$eval(
     //   "div.Lyrics__Container-sc-1ynbvzw-6",
     //   (res) => {
@@ -98,6 +98,7 @@ app.get("/api/lyrics", async (req, res) => {
     res.send(pageContent.toString())
   } catch (err) {
     console.log(err);
+    return
   } finally {
     await browser.close();
   }
