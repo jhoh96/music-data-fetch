@@ -1,20 +1,22 @@
 import React, { useState, useEffect } from "react";
 import Axios from "axios";
-import { Button, TextInput, Tag, Layer, Keyboard, Footer } from "grommet";
+import { Button, TextInput, Tag, Layer, Keyboard } from "grommet";
 import "./pageStyle.css";
 import { motion } from "framer-motion";
 import SongPage from "./SongPage.tsx";
 import ScaleLoader from "react-spinners/ScaleLoader";
 
 const searchResults: any = [];
-const mainTheme = "#7D4CDB";
+// const mainTheme = "#7D4CDB";
 const secondaryTheme = "#6FFFB0";
 
+// eslint-disable-next-line no-unused-vars
 export default function Main() {
   const [isLoaded, setLoad] = useState<boolean>(true);
   const [tagClicked, setTagClicked] = useState<boolean>(false);
   const [inputSearch, setInputSearch] = useState<any>("");
   const [data, setData] = useState<any>([]);
+  // eslint-disable-next-line
   const [songID, setSongID] = useState();
   const [currentData, setCurrentData] = useState();
 
@@ -23,6 +25,7 @@ export default function Main() {
   };
 
   // API GET Request upon button click
+  //https://polar-earth-89978.herokuapp.com/
   const handleSearchClick = () => {
     if (inputSearch.match(/^ *$/) !== null) {
       alert("Please enter a song or artist");
@@ -113,7 +116,7 @@ export default function Main() {
         <div>
           <TextInput
             id="text-input"
-            placeholder="Search song or artist"
+            placeholder="Search song or artist (e.g., Paramore)"
             onChange={(e) => setSearchInput(e.target.value)}
           />
           <Button

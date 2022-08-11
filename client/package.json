@@ -1,7 +1,8 @@
 {
-  "name": "music-wordcloud",
+  "name": "music-data-fetch",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://jhoh96.github.io/music-data-fetch/",
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.3.0",
@@ -16,8 +17,11 @@
     "@visx/wordcloud": "^2.10.0",
     "axios": "^0.27.2",
     "dotenv": "^16.0.1",
+    "firebase": "^9.9.2",
+    "firebase-tools": "^11.5.0",
     "framer-motion": "^7.0.0",
     "genius-lyrics-api": "^3.2.0",
+    "gh-pages": "^4.0.0",
     "grommet": "^2.25.1",
     "grommet-icons": "^4.7.0",
     "http-proxy-middleware": "^2.0.6",
@@ -35,6 +39,8 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",

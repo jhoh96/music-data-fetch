@@ -17,6 +17,7 @@ export default function SongPage(params) {
   const navigate = useNavigate();
 
   const handleButtonClick = (e) => {
+    // unncessary?
     e.preventDefault()
     navigate("data_page", {
       state: {
@@ -57,10 +58,6 @@ export default function SongPage(params) {
           primary
           label="Get Data"
           onClick={e=>handleButtonClick(e)}
-        />
-        <script
-          type="text/javascript"
-          src="http://tracking.musixmatch.com/t1.0/AMa6hJCIEzn1v8RuOP"
         />
       </Card>
     </div>

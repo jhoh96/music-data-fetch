@@ -3,6 +3,7 @@
 /* song lyrics */
 @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap");
 
+
 .main-page,
 html,
 body {
@@ -15,6 +16,7 @@ body {
   background-size: cover;
   object-fit: cover;
   font-family: "Poppins", sans-serif;
+  
 }
 
 #text-input {
@@ -168,11 +170,18 @@ body {
   -ms-user-select: none;
 }
 
+.wordcloud {
+  padding-right: 5%;
+}
+
 #header-box {
   padding-top: 5%;
-  width: 40%;
+  width: 100%;
   height: 50%;
   margin: auto;
+  /* background: linear-gradient(90deg, rgba(85,161,242,1) 0%, rgba(73,242,187,0.08167016806722693) 100%); */
+  /* background: radial-gradient(circle, rgba(85,161,242,0.87718837535014) 0%, rgba(66,40,115,0.7147233893557423) 78%); */
+
 }
 
 #song-image {
@@ -180,6 +189,7 @@ body {
   height: auto;
   top: 2vh;
   position: absolute;
+  left: 40%;
   max-width: 200px;
   max-height: 200px;
   user-select: none;
@@ -187,12 +197,15 @@ body {
   -webkit-user-drag: none;
   -webkit-user-select: none;
   -ms-user-select: none;
+  filter: drop-shadow(0 0 0.75rem #24173b);
+  
 }
 
 #song-title {
   font-size: 50px;
-  text-decoration: underline;
-  text-shadow: 0 0 2px black, 0 0 2px black, 0 0 2px black, 0 0 2px black;
+  /* text-decoration: underline; */
+  
+  text-shadow: 0 0 3px black, 0 0 3px black, 0 0 3px black, 0 0 3px black;
   color: white;
   position: relative;
   left: 10%;
@@ -201,7 +214,10 @@ body {
   -webkit-user-drag: none;
   -webkit-user-select: none;
   -ms-user-select: none;
+  background: radial-gradient(circle, rgba(85,161,242,0.87718837535014) 0%, rgba(66,40,115,0.7147233893557423) 78%);
+  
 }
+
 
 #song-lyrics {
   font-size: 15px;
