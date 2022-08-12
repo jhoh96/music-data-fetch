@@ -114,6 +114,7 @@ export const NLTK = [
   "THAN",
   "WENT",
   "IM",
+  "ILL",
   ""
 ];
 

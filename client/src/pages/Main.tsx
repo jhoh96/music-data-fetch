@@ -137,30 +137,21 @@ export default function Main() {
             <Tip
               id="drop-down-tip"
               content={
-                <p id="tip-writing">
+                <span id="tip-writing">
                   Song lyrics are obtained via HTML Scraping - <br />
                   which can contain lots of data. <br />
                   <p />
                   If the page takes longer than 30 seconds to load, <br />
                   please refresh the page 'once' or restart the search.
                   <p />
-                  Search servers are being hosted on a free server which <br />
+                  API calls and Search functions are being hosted on a free server which <br />
                   has a time limit.
-                </p>
+                </span>
               }
             >
               <Button id="tip-button" label="Please Read" />
             </Tip>
           </Box>
-          <Button
-            id="return-button"
-            primary
-            label="Return to Search"
-            onClick={() => {
-              navigate("/");
-              window.location.reload();
-            }}
-          />
         </div>
       </Keyboard>
       {isLoaded ? (

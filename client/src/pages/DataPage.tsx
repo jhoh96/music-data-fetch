@@ -179,29 +179,24 @@ export default function DataPage({
         setLyricsLoaded(true);
       });
     } catch (err) {
-      console.log(err);
+      console.log(err)
     }
   }, [lyricsUrl]);
 
   return (
     <div className="song-data-main">
+
       <Box id="header-box">
         <Image id="song-image" fit="cover" src={albumCover} />
         <h1 id="song-title">{title}</h1>
       </Box>
-      <Button
-        id="return-button"
-        primary
-        label="Return to Search"
-        onClick={() => {
-          navigate("/");
-          window.location.reload();
-        }}
-      />
       {lyricsLoaded ? (
         songLyricsArray.map((verse) => {
           return (
-            <p id="song-lyrics" key={Math.random().toString(16).slice(2)}>
+            <p
+              id="song-lyrics"
+              key={Math.random().toString(16).slice(2)}
+            >
               {verse}
             </p>
           );
@@ -222,6 +217,15 @@ export default function DataPage({
             onClick={(event) => setCloudChecked(event.target.checked)}
             color={"green"}
             toggle={true}
+          />
+          <Button
+            id="return-button"
+            primary
+            label="Return to Search"
+            onClick={() => {
+              navigate("/");
+              window.location.reload();
+            }}
           />
         </div>
       )}
