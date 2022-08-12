@@ -4,8 +4,6 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 const axios = require("axios");
 const puppeteer = require("puppeteer");
-const auth_token =
-  "bvYasddC9W6qkPTUxcUA-DiTB99qCnO2E-VlSWppAGhE8XZzjTUgu4HyieBtbEAP";
 require("events").EventEmitter.prototype._maxListeners = 0;
 app.use(cors());
 app.use(express.json());
