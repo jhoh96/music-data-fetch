@@ -167,7 +167,7 @@ export default function DataPage({
   //https://polar-earth-89978.herokuapp.com/
   useEffect(() => {
     try {
-      Axios.get("http://localhost:3001/api/lyrics", {
+      Axios.get("https://polar-earth-89978.herokuapp.com/api/lyrics", {
         method: "GET",
         params: {
           search: encodeURIComponent(lyricsUrl),
@@ -180,8 +180,10 @@ export default function DataPage({
       });
     } catch (err) {
       console.log(err)
+    } finally {
+      return
     }
-  }, [lyricsUrl]);
+  },[lyricsUrl]);
 
   return (
     <div className="song-data-main">

@@ -46,7 +46,7 @@ export default function Main() {
     // sets searchResults to empty array initially
     searchResults.length = 0;
     setLoad(false);
-    Axios.get("http://localhost:3001/api/search/" + inputSearch, {
+    Axios.get("https://polar-earth-89978.herokuapp.com/api/search/" + inputSearch, {
       method: "GET",
       params: {
         search: JSON.stringify(inputSearch),
