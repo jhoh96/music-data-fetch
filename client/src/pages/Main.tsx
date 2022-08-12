@@ -1,14 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Axios from "axios";
-import {
-  Button,
-  TextInput,
-  Tag,
-  Layer,
-  Keyboard,
-  Tip,
-  Box,
-} from "grommet";
+import { Button, TextInput, Tag, Layer, Keyboard, Tip, Box } from "grommet";
 import "./pageStyle.css";
 import { motion } from "framer-motion";
 import SongPage from "./SongPage.tsx";
@@ -46,12 +38,15 @@ export default function Main() {
     // sets searchResults to empty array initially
     searchResults.length = 0;
     setLoad(false);
-    Axios.get("https://polar-earth-89978.herokuapp.com/api/search/" + inputSearch, {
-      method: "GET",
-      params: {
-        search: JSON.stringify(inputSearch),
-      },
-    })
+    Axios.get(
+      "https://polar-earth-89978.herokuapp.com/api/search/" + inputSearch,
+      {
+        method: "GET",
+        params: {
+          search: JSON.stringify(inputSearch),
+        },
+      }
+    )
       .then((response: any) => {
         setData(response.data.response.hits);
       })
@@ -144,8 +139,6 @@ export default function Main() {
                   If the page takes longer than 30 seconds to load, <br />
                   please refresh the page 'once' or restart the search.
                   <p />
-                  API calls and Search functions are being hosted on a free server which <br />
-                  has a time limit.
                 </span>
               }
             >
